@@ -16,7 +16,7 @@ jobs:
     - name: Set up Git identity
       run: |
         git config --global user.email "caneryakupoglu@outlook.com"
-        git config --global user.name "Caner"
+        git config --global user.name "Caner Yakupoğlu"
 
     - name: Set up Node.js
       uses: actions/setup-node@v2
