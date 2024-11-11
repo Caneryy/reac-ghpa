@@ -3,29 +3,33 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # Değişiklikleri hangi branch'e iteklediğinizde deploy yapmasını istiyorsanız onu seçin.
+      - main  # Eğer ana dalınız farklıysa (ör. master), burayı güncelleyin
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v2
+    - name: Checkout the repository
+      uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20'  # Projenizde kullanılan Node.js versiyonunu burada belirtin.
+    - name: Set up Git identity
+      run: |
+        git config --global user.email "your-email@example.com"
+        git config --global user.name "Your Name"
 
-      - name: Install dependencies
-        run: npm install
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20'  # Node.js sürümünüzü buradan ayarlayın
 
-      - name: Build the project
-        run: npm run build  # Build komutunuz farklıysa burada belirtin.
+    - name: Install dependencies
+      run: npm install
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build  # React projenizin build çıktısı buradaysa doğru konumu belirtin.
+    - name: Build the project
+      run: npm run build
+
+    - name: Deploy to GitHub Pages
+      run: npm run deploy
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
